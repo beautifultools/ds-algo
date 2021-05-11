@@ -1,0 +1,173 @@
+package list;
+
+
+/*
+    ArrayList : 배열을 이용해 만든 리스트
+
+    init : 그냥 초기화하면 0, 숫자를 넣어서 초기화하면 해당 값으로 기본 값을 설정해준다.
+
+    pop : 맨 마지막 데이터를 빼온다. index로 중간에 있는 것을 가져올 수도 있다. 값이 없는 경우 null을 반환한다.
+
+    push : 맨 마지막에 데이터를 넣는다.
+
+    get : 맨 마지막 데이터 또는 특정 index의 데이터를 확인한다. 유효하지 않은 인덱스가 입력되면 null을 반환한다.
+
+    isEmpty : 비었는지 확인한다.
+
+    isFull : 현재 사이즈가 모두 찼는지 확인한다.
+*/
+
+import sun.awt.image.ImageWatched;
+
+public class LinkedList<T>{i
+
+    private int size;
+    private Node tail;
+    private Node head;
+
+
+    public LinkedList(){
+        size = 0;
+        head = null;
+        tail = null;
+    }
+
+    public LinkedList(LinkedList list){
+        size = list.getSize();
+        head = list.getHead();
+        tail = list.getTail();
+    }
+
+    public boolean isEmpty(){
+        return size == 0 ? true : false;
+    }
+
+    public int getSize(){
+        return size;
+    }
+
+    public Node<T> getHead(){
+        return head;
+    }
+
+    public Node<T> getTail(){ return tail; }
+
+    public boolean push(T data){
+        return push(data, 0,false);
+    }
+
+    public boolean push(T data, boolean fromTail){
+        return push(data, 0, fromTail);
+    }
+
+    public boolean push (T data, int inx){
+        return push(data, inx, false);
+    }
+
+    public boolean push(T data, int inx, boolean fromTail){
+        if(size <= inx)
+            return false;
+
+        if(fromTail){
+            Node tmp = getTail();
+            for(int i = 0; i < inx; i++){
+                tmp = tmp.prev;
+            }
+            Node node = new Node(tmp, data, tmp.next);
+            tmp.next.prev = node;
+            tmp.next = node;
+        } else {
+            Node tmp = getHead();
+            for(int i = 0; i < inx; i++){
+                tmp = tmp.next;
+            }
+            Node node = new Node(tmp.next, data, tmp.next);
+            tmp.prev.next = node;
+            tmp.prev = node;
+        }
+
+        size+=1;
+        return true;
+    }
+
+    public Node<T> pop(){
+        return pop(0, false);
+    }
+
+    public Node<T> pop(boolean fromTail){
+        return pop(0, fromTail);
+    }
+
+    public Node<T> pop(int inx){
+        return pop(inx, false);
+    }
+
+    public Node<T> pop(int inx, boolean fromTail){
+        if(isEmpty())
+            return null;
+
+        Node tmp = findNodeByIndex(inx, fromTail);
+
+        if(tmp != null && tmp.next != null)
+            tmp.next.prev = tmp.prev;
+
+        if(tmp != null && tmp.prev != null)
+            tmp.prev.next = tmp.next;
+
+        size-=1;
+        return tmp;
+    }
+
+    public Node<T> get(){
+        return get(0, false);
+    }
+
+    public Node<T> get(boolean fromTail){
+        return get(0, fromTail);
+    }
+
+    public Node<T> get(int inx){
+        return get(inx, false);
+    }
+
+    public Node<T> get(int inx, boolean fromTail){
+        return findNodeByIndex(inx, fromTail);
+    }
+
+    /*
+        해당 함수의 내용을 get 함수에 정의해 pop에서도 사용할 수 있지만 get과 pop의 결합도를 낮추기 위해 별도의 함수 정의해 사용.
+        pop에서 get을 사용할 경우 get 함수 변화에 따라 pop의 내용이 수시로 바뀌어야 함.
+    */
+    public Node<T> findNodeByIndex(int inx, boolean fromTail){
+        if(size <= inx)
+            return null;
+        Node<T> tmp = null;
+        if(fromTail){
+            tmp = getTail();
+            for(int i = 0; i < inx; i++){
+                tmp = tmp.prev;
+            }
+
+        } else {
+            tmp = getHead();
+            for(int i = 0; i < inx; i++){
+                tmp = tmp.next;
+            }
+        }
+        return tmp;
+    }
+
+
+
+    static class Node<T>{
+        private T data;
+        private Node<T> prev;
+        private Node<T> next;
+
+        Node(Node<T> prev, T data, Node<T> next){
+            this.prev = prev;
+            this.data = data;
+            this.next = next;
+        };
+    }
+}

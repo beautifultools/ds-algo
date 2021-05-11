@@ -1,0 +1,105 @@
+package list;
+
+
+/*
+    ArrayList : 배열을 이용해 만든 리스트
+
+    init : 그냥 초기화하면 0, 숫자를 넣어서 초기화하면 해당 값으로 기본 값을 설정해준다.
+
+    pop : 맨 마지막 데이터를 빼온다. index로 중간에 있는 것을 가져올 수도 있다. 값이 없는 경우 null을 반환한다.
+
+    push : 맨 마지막에 데이터를 넣는다.
+
+    get : 맨 마지막 데이터 또는 특정 index의 데이터를 확인한다. 유효하지 않은 인덱스가 입력되면 null을 반환한다.
+
+    isEmpty : 비었는지 확인한다.
+
+    isFull : 현재 사이즈가 모두 찼는지 확인한다.
+*/
+
+import java.util.Collection;
+
+public class ArrayList<T>{
+
+    private final int defaultArrSize = 10;
+    private int index;
+    private int size;
+
+    private Object[] arr = {};
+
+    public ArrayList(){
+        index = 0;
+        size = defaultArrSize;
+        arr = new Object[size];
+    }
+
+    public ArrayList(int size){
+        index = 0;
+        this.size = size;
+        arr = new Object[size];
+    }
+
+
+
+    public boolean isEmpty(){
+        return index == 0 ? true : false;
+    }
+
+    public boolean isFull(){
+        return index + 1 >= size ? true : false;
+    }
+
+    public boolean push(T data){
+        if(isFull())
+            return false;
+
+        arr[index++] = data;
+        return true;
+    }
+
+    public boolean push(T data, int inx){
+        if(isFull() || inx >= size || inx < 0)
+            return false;
+
+        for(int i = index++; i >= inx; i--){
+            arr[i+1] = arr[i];
+        }
+        arr[inx] = data;
+        return true;
+    }
+
+    public T pop(){
+        if(isEmpty())
+            return null;
+        T retVal = (T)arr[index];
+        arr[index--] = null;
+        return retVal;
+    }
+
+    public T pop(int inx){
+        if(isEmpty() || inx >= size || inx <0)
+            return null;
+
+        T retVal = (T)arr[inx];
+
+        for(int i = inx; i < index; i--){
+           arr[i] = arr[i+1];
+        }
+        arr[index--] = null;
+
+        return retVal;
+    }
+
+    public T get(){
+        if(isEmpty())
+            return null;
+
+        return (T)arr[this.index];
+    }
+
+    public T get(int inx){
+        if(isEmpty() || inx >= size || inx <0)
+            return null;
+        return (T)arr[inx];
+    }
+}
