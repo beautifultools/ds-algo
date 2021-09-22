@@ -12,9 +12,9 @@ class SingleLinkedList {
         this.tail = undefined;
     }
 
-    createSingleNodeLinkedList(value:number){
+    createSingleNodeLinkedList(value: number) {
         const node = {
-            value, next:undefined
+            value, next: undefined
         };
         this.head = node;
         this.tail = node;
@@ -25,7 +25,7 @@ class SingleLinkedList {
 
     public insertInLinkedList(value: number, location: number): void {
         if (!this.existLinkedList()) {
-            console.log("The linked list does not exist")
+            console.log("The linked list does not exist");
             return;
         }
 
@@ -60,21 +60,21 @@ class SingleLinkedList {
 
     deletionOfNode(location: number): void {
         if (!this.existLinkedList()) {
-            console.log("The linked list does not exist")
+            console.log("The linked list does not exist");
             return;
         } else if (location == 0) {
             this.head = undefined;
             this.size--;
-            if(this.size == 0){
+            if (this.size == 0) {
                 this.tail = undefined;
             }
-        } else if (location >= this.size){
-            let tempNode:SingleNode = this.head;
-            for(let i:number = 0; i < location - 1; i++){
+        } else if (location >= this.size) {
+            let tempNode: SingleNode = this.head;
+            for (let i: number = 0; i < location - 1; i++) {
                 tempNode = tempNode.next;
             }
 
-            if(tempNode == this.head){
+            if (tempNode == this.head) {
                 this.head = undefined;
                 this.tail = undefined;
                 return;
@@ -84,8 +84,8 @@ class SingleLinkedList {
             this.tail = tempNode;
             this.size--;
         } else {
-            let tempNode:SingleNode = this.head;
-            for(let i:number = 0; i < location - 1; i++){
+            let tempNode: SingleNode = this.head;
+            for (let i: number = 0; i < location - 1; i++) {
                 tempNode = tempNode.next;
             }
             tempNode.next = tempNode.next.next;
