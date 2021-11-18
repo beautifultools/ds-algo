@@ -6,10 +6,12 @@ type SingleNode = {
 class SingleLinkedList {
     head: SingleNode | undefined;
     tail: SingleNode | undefined;
+    size: number;
 
-    constructor(private size: number) {
+    constructor() {
         this.head = undefined;
         this.tail = undefined;
+        this.size = 0;
     }
 
     createSingleNodeLinkedList(value: number) {
@@ -22,6 +24,13 @@ class SingleLinkedList {
         return this.head;
     }
 
+    public getNode(location: number): SingleNode {
+        let target = this.head;
+        for(let i = 0; i < location; i++){
+            target = target.next;
+        }
+        return target;
+    }
 
     public insertInLinkedList(value: number, location: number): void {
         if (!this.existLinkedList()) {
@@ -93,3 +102,5 @@ class SingleLinkedList {
         }
     }
 }
+
+export default SingleLinkedList;
